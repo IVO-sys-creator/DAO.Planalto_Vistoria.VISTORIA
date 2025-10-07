@@ -10,7 +10,7 @@ import DB.Conexao;
 public class VistoriaDAO {
 	
 	public void salvar(Vistoria vistoria) {
-		String sql = "UPDATE vistoria SET dataVistoria=?, resultado=?, statusPagamento=?, observacoes=?, idAgendamento=?, idFuncionario=? "
+		String sql = "UPDATE vistoria SET dataVistoria=?, observacoes=?, idAgendamento=?, idFuncionario=? "
                 + "WHERE idVistoria=?";
 		
 		 try (Connection conn = Conexao.conectar();
@@ -18,11 +18,10 @@ public class VistoriaDAO {
 			
 			 stmt.setInt(1, vistoria.getIdVistoria());
 			 stmt.setDate(2, vistoria.getDataVistoria());
-			 stmt.setString(3, vistoria.getResultado());
-			 stmt.setString(4, vistoria.getStatusPagamento());
-			 stmt.setString(5, vistoria.getObservacoes());
-			 stmt.setInt(6, vistoria.getIdAgendamento());
-			 stmt.setInt(7, vistoria.getIdFuncionario());
+			 stmt.setString(3, vistoria.getObservacoes());
+			 stmt.setString(4, vistoria.getItensVerificados());
+			 stmt.setInt(4, vistoria.getIdAgendamento());
+			 stmt.setInt(6, vistoria.getIdFuncionario());
 			 
 			 stmt.executeUpdate();
 			 
@@ -53,8 +52,6 @@ public List<Vistoria> listar(){
 					rs.getInt("idVistoria"),
 					rs.getDate("data_vistoria"),
 					rs.getString("itensVerificados"),
-					rs.getString("resultado"),
-					rs.getString("status_pagamento"),
 					rs.getString("observacoes"),
 					rs.getInt("idPagamento"),
 					rs.getInt("idFuncionario")
@@ -69,7 +66,7 @@ public List<Vistoria> listar(){
 }
 
 public void atualizar(Vistoria vistoria) {
-	String sql = "UPDATE vistoria SET data_vistoria=?, itens_verificados=?, resultado=?, status_pagamento=?, observacoes=?, idPagamento=?, idFuncionario=? WHERE idVistoria=";
+	String sql = "UPDATE vistoria SET data_vistoria=?, itens_verificados=?, observacoes=?, idPagamento=?, idFuncionario=? WHERE idVistoria=";
 	
 	try(Connection conn = Conexao.conectar();
 			PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -77,11 +74,9 @@ public void atualizar(Vistoria vistoria) {
 				 stmt.setInt(1, vistoria.getIdVistoria());
 				 stmt.setDate(2, vistoria.getDataVistoria());
 				 stmt.setString(3, vistoria.getItensVerificados());
-				 stmt.setString(4, vistoria.getResultado());
-				 stmt.setString(4, vistoria.getStatusPagamento());
-				 stmt.setString(6, vistoria.getObservacoes());
-				 stmt.setInt(7, vistoria.getIdAgendamento());
-				 stmt.setInt(8, vistoria.getIdFuncionario());
+				 stmt.setString(4, vistoria.getObservacoes());
+				 stmt.setInt(5, vistoria.getIdAgendamento());
+				 stmt.setInt(6, vistoria.getIdFuncionario());
 				 
 				 stmt.executeUpdate();
 				 System.out.println("Vistoria atualizada.");
@@ -106,3 +101,4 @@ public void excluir(int idVistoria) {
 	}
   }
 }
+
